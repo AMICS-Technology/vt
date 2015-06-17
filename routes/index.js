@@ -76,7 +76,7 @@ router.get('/api/v1/getxive', function(req, res) {
             'color': color,
             'total_usage': max_value,
             'how_many_times_did_i_turn_on_the_faucet': jsonString.datastreams.length,
-            'timestamp': Date.now()
+            'timestamp': new Date()
         };
         return res.json(jsonString);
     });
