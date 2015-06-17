@@ -37,14 +37,47 @@ router.get('/api/v1/getxive', function(req, res) {
 
     var max_value = 0;
     var adjustment = .98;
-    var newValue = 0;
+    var adjusted_value = 0;
+    var color;
+    var color_range;
     client.get('https://api.xively.com/v2/feeds/866813937.json?datastreams=meter_reading', args, function(data, response) {
         var jsonString = JSON.parse(data);
         for(var i = 0; i < jsonString.datastreams.length; i++) {
-            max_value += Math.floor(jsonString.datastreams[i].max_value);
+            max_value += jsonString.datastreams[i].max_value;
         }
-        newValue = max_value * adjustment;
-        return res.json(newValue);
+
+        adjusted_value = max_value * adjustment;
+        color_range = 100/7;
+        var range = 0;
+
+        if(0 < adjusted_value < range + color_range) {
+            color = 'GREEN';
+        } else if (range < adjusted_value < range + color_range) {
+            color = 'TEAL';
+        }
+        else if (range < adjusted_value < range + color_range) {
+            color = 'BLUE';
+        }
+        else if (range < adjusted_value < range + color_range) {
+            color = 'PURPLE';
+        }
+        else if (range < adjusted_value < range + color_range) {
+            color = 'WHITE';
+        }
+        else if (range < adjusted_value < range + color_range) {
+            color = 'ORANGE';
+        }
+        else if (range < adjusted_value < range + color_range) {
+            color = 'RED';
+        }
+
+        var jsonString = {
+            'adjusted_value':adjusted_value,
+            'color': color,
+            'total_usage': max_value,
+            'how_many_times_did_i_turn_on_the_faucet': jsonString.datastreams.length
+        };
+        return res.json(jsonString);
     });
 
 
