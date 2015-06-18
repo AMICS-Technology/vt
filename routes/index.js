@@ -3,10 +3,15 @@ var router = express.Router();
 var Client = require('node-rest-client').Client;
 
 var pg = require('pg');
-var conString = "postgres://imzyqdkhwhmmly:imzyqdkhwhmmly@ec2-54-83-36-90.compute-1.amazonaws.com:5432/d8dje8d8vfe1dp"
 
-
-client = new Client();
+var client = new pg.Client({
+    user: "imzyqdkhwhmmly",
+    password: "N_vtZuYXu_HblK2M7nG0vflupd",
+    database: "d8dje8d8vfe1dp",
+    port: 5432,
+    host: "ec2-54-83-36-90.compute-1.amazonaws.com",
+    ssl: true
+});
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
