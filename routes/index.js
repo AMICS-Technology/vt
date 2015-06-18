@@ -3,7 +3,7 @@ var router = express.Router();
 var Client = require('node-rest-client').Client;
 
 var pg = require('pg');
-var conString = "postgres://root:vulpes123@vt.cvfd8nt5omdq.us-west-2.rds.amazonaws.com:5432/vt"
+var conString = "postgres://imzyqdkhwhmmly:imzyqdkhwhmmly@ec2-54-83-36-90.compute-1.amazonaws.com:5432/d8dje8d8vfe1dp"
 
 
 client = new Client();
