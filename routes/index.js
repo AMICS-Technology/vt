@@ -160,7 +160,7 @@ router.get('/api/v1/sessionUsage', function(req, res) {
     pg.connect(conString, function(err, client, done) {
 
         // SQL Query > Select Data
-        var query = client.query("SELECT * FROM waterusage_by_month ORDER BY userId ASC;");
+        var query = client.query("SELECT * FROM waterusage_by_session ORDER BY userId ASC;");
 
 
         console.log(query);
