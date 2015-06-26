@@ -1,6 +1,8 @@
 var express = require('express');
 var router = express.Router();
-var Client = require('node-rest-client').Client;
+var rest_client = require('node-rest-client').Client;
+
+rest_client = new rest_client();
 
 var pg = require('pg');
 
@@ -45,7 +47,7 @@ router.get('/api/v1/getxive', function(req, res) {
     var adjusted_value = 0;
     var color;
     var color_range;
-    client.get('https://api.xively.com/v2/feeds/866813937.json?datastreams=meter_reading', args, function(data, response) {
+    rest_client.get('https://api.xively.com/v2/feeds/866813937.json?datastreams=meter_reading', args, function(data, response) {
         var jsonString = JSON.parse(data);
         for(var i = 0; i < jsonString.datastreams.length; i++) {
             max_value += jsonString.datastreams[i].max_value;
@@ -78,10 +80,10 @@ router.get('/api/v1/getxive', function(req, res) {
 
         var jsonString = {
             'adjusted_value':adjusted_value,
-            'color': color,
-            'total_usage': max_value,
-            'how_many_times_did_i_turn_on_the_faucet': jsonString.datastreams.length,
-            'timestamp': new Date()
+            //'color': color,
+            'total_usage': max_value
+            //'how_many_times_did_i_turn_on_the_faucet': jsonString.datastreams.length,
+            //'timestamp': new Date()
         };
         return res.json(jsonString);
     });
