@@ -3,10 +3,6 @@
  */
 var pg = require('pg');
 
-var conString = "postgres://::5432/";
-
-//var client = new pg.Client(conString);
-
 var client = new pg.Client({
     user: "imzyqdkhwhmmly",
     password: "N_vtZuYXu_HblK2M7nG0vflupd",
@@ -19,16 +15,39 @@ client.connect();
 
 var query = client.query('DROP TABLE IF EXISTS waterusage_by_session; CREATE TABLE waterusage_by_session(' +
     'sessionId SERIAL PRIMARY KEY, ' +
+    'faucetId INT' +
     'userId INT,' +
-    'milliliter INT,' +
+    'usage INT,' +
     'date DATE' +
 ')');
+query.on('end', function() { client.end(); });
+
+var query = client.query('DROP TABLE IF EXISTS users; CREATE TABLE users(' +
+    'userId SERIAL PRIMARY KEY, ' +
+    'name varchar(50),' +
+    'facebook varchar(100),' +
+    'twitter varchar(100),' +
+    'dateRegistered DATE' +
+    ')');
+query.on('end', function() { client.end(); });
+
+var query = client.query('DROP TABLE IF EXISTS faucets; CREATE TABLE faucets(' +
+    'userId INT, ' +
+    'faucetId INT' +
+    ')');
+query.on('end', function () { client.end(); });
+
+var query = client.query('DROP TABLE IF EXISTS waterusage_by_day; CREATE TABLE waterusage_by_day(' +
+    'userId INT,' +
+    'usage INT,' +
+    'date DATE' +
+    ')');
 query.on('end', function() { client.end(); });
 
 var query = client.query('DROP TABLE IF EXISTS waterusage_by_month; CREATE TABLE waterusage_by_month(' +
     'userId INT,' +
     'month VARCHAR(30),' +
-    'milliliter INT,' +
+    'usage INT,' +
     'lastUpdate DATE' +
 ')');
 query.on('end', function() { client.end(); });
