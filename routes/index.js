@@ -79,7 +79,7 @@ router.get('/api/v1/getxive', function(req, res) {
         }
 
         var jsonString = {
-            'adjusted_value':adjusted_value,
+            'adjusted_value': '<' + adjusted_value + '>',
             //'color': color,
             'total_usage': max_value
             //'how_many_times_did_i_turn_on_the_faucet': jsonString.datastreams.length,
