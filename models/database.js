@@ -2,6 +2,8 @@
  * Created by Jonathan on 6/10/2015.
  */
 var pg = require('pg');
+var fs = require('fs');
+var sql = fs.readFileSync('dbUpdates.sql').toString();
 
 var client = new pg.Client({
     user: "imzyqdkhwhmmly",
@@ -13,41 +15,5 @@ var client = new pg.Client({
 });
 client.connect();
 
-var query = client.query('DROP TABLE IF EXISTS waterusage_by_session; CREATE TABLE waterusage_by_session(' +
-    'sessionId SERIAL PRIMARY KEY, ' +
-    'faucetId INT' +
-    'userId INT,' +
-    'usage INT,' +
-    'date DATE' +
-')');
-query.on('end', function() { client.end(); });
-
-var query = client.query('DROP TABLE IF EXISTS users; CREATE TABLE users(' +
-    'userId SERIAL PRIMARY KEY, ' +
-    'name varchar(50),' +
-    'facebook varchar(100),' +
-    'twitter varchar(100),' +
-    'dateRegistered DATE' +
-    ')');
-query.on('end', function() { client.end(); });
-
-var query = client.query('DROP TABLE IF EXISTS faucets; CREATE TABLE faucets(' +
-    'userId INT, ' +
-    'faucetId INT' +
-    ')');
-query.on('end', function () { client.end(); });
-
-var query = client.query('DROP TABLE IF EXISTS waterusage_by_day; CREATE TABLE waterusage_by_day(' +
-    'userId INT,' +
-    'usage INT,' +
-    'date DATE' +
-    ')');
-query.on('end', function() { client.end(); });
-
-var query = client.query('DROP TABLE IF EXISTS waterusage_by_month; CREATE TABLE waterusage_by_month(' +
-    'userId INT,' +
-    'month VARCHAR(30),' +
-    'usage INT,' +
-    'lastUpdate DATE' +
-')');
+var query = client.query(sql);
 query.on('end', function() { client.end(); });
