@@ -1,6 +1,8 @@
 var express = require('express');
 var router = express.Router();
 var rest_client = require('node-rest-client').Client;
+var transactions = require('../models/dbTransactions');
+
 
 rest_client = new rest_client();
 
@@ -31,6 +33,11 @@ function pgFormatDate(date) {
 
     return [parsed.getUTCFullYear(), zeroPad(parsed.getMonth() + 1), zeroPad(parsed.getDate()), zeroPad(parsed.getHours()), zeroPad(parsed.getMinutes()), zeroPad(parsed.getSeconds())].join(" ");
 }
+
+router.get('/api/test/getAllBySession', function(req, res) {
+    console.log('testing endpoint /api/test/getAllBySession');
+    res.json(transactions.getSessionByUser());
+})
 
 router.get('/api/v1/getxive', function(req, res) {
     console.log('get from endpoint /api/v1/getxive');
