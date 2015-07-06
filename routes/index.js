@@ -36,7 +36,7 @@ function pgFormatDate(date) {
 
 router.get('/api/test/getAllBySession', function(req, res) {
     console.log('testing endpoint /api/test/getAllBySession');
-    res.json(transactions.getSessionByUser());
+    res.json(transactions.getSessionByUser('test'));
 })
 
 router.get('/api/v1/getxive', function(req, res) {

@@ -17,8 +17,8 @@ client.connect();
 console.log('SYS: established connection to pgDatabase');
 
 module.exports = {
-    getSessionByUser : function () {
-        client.query('SELECT * from waterusage_by_session', function(err, results) {
+    getSessionByUser : function (data) {
+        client.query('SELECT * from waterusage_by_session where userId=($1)', [data.userId], function(err, results) {
                 console.log('do something!');
 
                 if(err) {
