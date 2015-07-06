@@ -13,21 +13,10 @@ var client = new pg.Client({
     host: "ec2-54-83-36-90.compute-1.amazonaws.com",
     ssl: true
 });
-client.connect();
-console.log('SYS: established connection to pgDatabase');
+
 
 module.exports = {
-    getSessionByUser : function (data) {
-        client.query('SELECT * from waterusage_by_session where userId=($1)', [data.userId], function(err, results) {
-                console.log('do something!');
-
-                if(err) {
-                    return console.error('error running query', err);
-                }
-                console.log(results.rows[0]);
-            }
-        );
-    },
+    /** Lets store all prepared sql statements here! **/
 
     getDayByUser: function () {
         console.log('do DayByUser');

@@ -26,8 +26,21 @@
   </component>
   <component name="DBNavigator.Project.DatabaseConsoleManager">
     <connection id="de64fc03-332c-4080-9f3f-189c94faea77">
-      <console name="VulpesTech-Dev" type="STANDARD" />
+      <console name="VulpesTech-Dev" type="STANDARD"><![CDATA[select
+    wbs.date,
+    wbs.faucetid,
+    wbs.sessionid,
+    wbs.usage,
+    wbs.userid
+from
+    waterusage_by_session wbs;]]></console>
     </connection>
+  </component>
+  <component name="DBNavigator.Project.DatasetFilterManager">
+    <filter-list connection-id="de64fc03-332c-4080-9f3f-189c94faea77" dataset="public.waterusage_by_session" active-filter-id="" />
+  </component>
+  <component name="DBNavigator.Project.FileConnectionMappingManager">
+    <mapping file-url="file://$PROJECT_DIR$/models/dbUpdates.sql" connection-id="de64fc03-332c-4080-9f3f-189c94faea77" current-schema="IMZYQDKHWHMMLY" />
   </component>
   <component name="DBNavigator.Project.MethodExecutionManager">
     <method-browser />
@@ -55,11 +68,11 @@
           <description value="VulpesTech-Dev" />
           <database-type value="POSTGRES" />
           <config-type value="BASIC" />
-          <database-version value="9999.0" />
+          <database-version value="9.4" />
           <driver-source value="BUILTIN" />
           <driver-library value="" />
           <driver value="" />
-          <host value=" postgres://imzyqdkhwhmmly:N_vtZuYXu_HblK2M7nG0vflupd@ec2-54-83-36-90.compute-1.amazonaws.com:5432/d8dje8d8vfe1dp" />
+          <host value="ec2-54-83-36-90.compute-1.amazonaws.com" />
           <port value="5432" />
           <database value="d8dje8d8vfe1dp" />
           <url-type value="DATABASE" />
@@ -68,7 +81,10 @@
           <password value="Tl92dFp1WVh1X0hibEsyTTduRzB2Zmx1cGQ=" />
         </database>
         <properties>
-          <auto-commit value="false" />
+          <auto-commit value="true" />
+          <properties>
+            <property key="ssl" value="true" />
+          </properties>
         </properties>
         <ssh-settings>
           <active value="false" />
