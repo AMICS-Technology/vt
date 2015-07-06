@@ -26,10 +26,9 @@ router.get('/', function(req, res, next) {
 
 
 
-
+// TODO: Refactor and make more readable
 router.get('/api/test/getAllBySession/:userId', function(req, res) {
-    var date = new Date();
-
+    // curl localhost:3000/api/test/getAllBySession/1
     var query = client.query('SELECT * from waterusage_by_session where userId=($1)', [req.params.userId]);
     var retValue = [];
     query.on('row', function(row) {
@@ -40,15 +39,38 @@ router.get('/api/test/getAllBySession/:userId', function(req, res) {
         console.log('Completed Query');
         return res.json(retValue);
     });
-    //return res.json(retValue);
 });
 
 router.post('/api/test/insertSession', function(req, res) {
+    // curl --data "userId=1&faucetId=1&usage=210" localhost:3000/api/test/insertSession
     var date = new Date();
     console.log('inserting session');
-    transactions.insertSession(req.body.userId, req.body.faucetId, req.body.usage, date);
 
-    res.json(transactions.getSessionByUser(req.body.userId));
+    var insertQuery = client.query('INSERT INTO waterusage_by_session(userId, faucetId, usage, date) values($1, $2, $3, $4)',
+        [req.body.userId, req.body.faucetId, req.body.usage, date]);
+
+    insertQuery.on('end', function() {
+        console.log('Completed Insert to WaterUsage_by_session');
+    });
+
+    // Find or Update Water usage by date
+    var selectWaterByDate = client.query('SELECT * FROM waterusage_by_day where userId=($1) AND date=($2)',
+        [req.body.userId, date /* formatted */]);
+
+
+    var dayIsEmpty = false;
+
+    selectWaterByDate.on('end', function(result) {
+
+        if(result.rowCount == 0) {
+            console.log('isEmpty');
+        }
+        console.log('Finished Select from WaterUsageByDay');
+    });
+
+    // Insert or update water usage by month
+
+    res.redirect('/api/test/getAllBySession/' + req.body.userId);
 
 });
 

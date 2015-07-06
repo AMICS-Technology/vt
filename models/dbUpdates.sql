@@ -26,7 +26,7 @@ DROP TABLE IF EXISTS waterusage_by_day;
 CREATE TABLE waterusage_by_day(
     userId INT,
     usage INT,
-    date DATE
+    date VARCHAR(10) -- in yyyy-mm-dd format
 );
 
 DROP TABLE IF EXISTS waterusage_by_month;
