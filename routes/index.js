@@ -64,9 +64,17 @@ router.post('/api/test/insertSession', function(req, res) {
 
         if(result.rowCount == 0) {
             console.log('isEmpty');
+            dayIsEmpty = true;
+        } else {
+            console.log('isNotEmpty');
+            dayIsEmpty = false;
         }
-        console.log('Finished Select from WaterUsageByDay');
+        console.log('isEmpty?' + dayIsEmpty);
+        console.log('Finished Select from UsageByDay');
     });
+    console.log('outside of block isEmpty?' + dayIsEmpty);
+
+
 
     // Insert or update water usage by month
 
