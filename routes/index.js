@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var rest_client = require('node-rest-client').Client;
+var path    = require("path");
 var transactions = require('../models/dbTransactions');
 
 
@@ -22,6 +23,10 @@ client.connect();
 /* GET home page. */
 router.get('/', function(req, res, next) {
   res.render('index', { title: 'Express' });
+});
+
+router.get('/dashboards', function(req, res, next) {
+    res.sendfile('public/dashboards.html');
 });
 
 Date.prototype.yyyymmdd = function() {
