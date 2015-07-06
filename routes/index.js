@@ -24,6 +24,13 @@ router.get('/', function(req, res, next) {
   res.render('index', { title: 'Express' });
 });
 
+Date.prototype.yyyymmdd = function() {
+    var yyyy = this.getFullYear().toString();
+    var mm = (this.getMonth()+1).toString(); // getMonth() is zero-based
+    var dd  = this.getDate().toString();
+    return yyyy + (mm[1]?mm:"0"+mm[0]) + (dd[1]?dd:"0"+dd[0]); // padding
+};
+
 
 
 // TODO: Refactor and make more readable
@@ -55,24 +62,26 @@ router.post('/api/test/insertSession', function(req, res) {
 
     // Find or Update Water usage by date
     var selectWaterByDate = client.query('SELECT * FROM waterusage_by_day where userId=($1) AND date=($2)',
-        [req.body.userId, date /* formatted */]);
-
-
-    var dayIsEmpty = false;
+        [req.body.userId, date.yyyymmdd()]);
 
     selectWaterByDate.on('end', function(result) {
 
         if(result.rowCount == 0) {
-            console.log('isEmpty');
-            dayIsEmpty = true;
+            var insertDayQuery = client.query('INSERT INTO waterusage_by_day(userId, usage, date) values($1, $2, $3)',
+                [req.body.userId, req.body.usage, date.yyyymmdd()]);
+
+            insertDayQuery.on('end', function() {
+                console.log('Completed Insert to waterusage_by_day');
+            });
+
+
         } else {
-            console.log('isNotEmpty');
-            dayIsEmpty = false;
+
+            console.log('update');
+
+
         }
-        console.log('isEmpty?' + dayIsEmpty);
-        console.log('Finished Select from UsageByDay');
     });
-    console.log('outside of block isEmpty?' + dayIsEmpty);
 
 
 
