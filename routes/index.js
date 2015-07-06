@@ -1,6 +1,8 @@
 var express = require('express');
 var router = express.Router();
 var rest_client = require('node-rest-client').Client;
+var transactions = require('../models/dbTransactions');
+
 
 rest_client = new rest_client();
 
@@ -15,22 +17,40 @@ var client = new pg.Client({
     ssl: true
 });
 
+client.connect();
+
 /* GET home page. */
 router.get('/', function(req, res, next) {
   res.render('index', { title: 'Express' });
 });
 
 
-function pgFormatDate(date) {
-    /* Via http://stackoverflow.com/questions/3605214/javascript-add-leading-zeroes-to-date */
-    function zeroPad(d) {
-        return ("0" + d).slice(-2)
-    }
 
-    var parsed = new Date(date)
 
-    return [parsed.getUTCFullYear(), zeroPad(parsed.getMonth() + 1), zeroPad(parsed.getDate()), zeroPad(parsed.getHours()), zeroPad(parsed.getMinutes()), zeroPad(parsed.getSeconds())].join(" ");
-}
+router.get('/api/test/getAllBySession/:userId', function(req, res) {
+    var date = new Date();
+
+    var query = client.query('SELECT * from waterusage_by_session where userId=($1)', [req.params.userId]);
+    var retValue = [];
+    query.on('row', function(row) {
+        retValue.push(row);
+    });
+
+    query.on('end', function() {
+        console.log('Completed Query');
+        return res.json(retValue);
+    });
+    //return res.json(retValue);
+});
+
+router.post('/api/test/insertSession', function(req, res) {
+    var date = new Date();
+    console.log('inserting session');
+    transactions.insertSession(req.body.userId, req.body.faucetId, req.body.usage, date);
+
+    res.json(transactions.getSessionByUser(req.body.userId));
+
+});
 
 router.get('/api/v1/getxive', function(req, res) {
     console.log('get from endpoint /api/v1/getxive');
