@@ -30,6 +30,11 @@ Date.prototype.yyyymmdd = function() {
     var dd  = this.getDate().toString();
     return yyyy + (mm[1]?mm:"0"+mm[0]) + (dd[1]?dd:"0"+dd[0]); // padding
 };
+Date.prototype.yyyymm = function() {
+    var yyyy = this.getFullYear().toString();
+    var mm = (this.getMonth()+1).toString(); // getMonth() is zero-based
+    return yyyy + (mm[1]?mm:"0"+mm[0]); // padding
+};
 
 
 
@@ -43,7 +48,30 @@ router.get('/api/test/getAllBySession/:userId', function(req, res) {
     });
 
     query.on('end', function() {
-        console.log('Completed Query');
+        return res.json(retValue);
+    });
+});
+
+router.get('/api/test/getAllDays/:userId', function (req, res) {
+    var query = client.query('SELECT * from waterusage_by_day where userId=($1)', [req.params.userId]);
+    var retValue = [];
+    query.on('row', function(row) {
+        retValue.push(row);
+    });
+
+    query.on('end', function() {
+        return res.json(retValue);
+    });
+});
+
+router.get('/api/test/getAllMonth/:userId', function (req, res) {
+    var query = client.query('SELECT * from waterusage_by_month where userId=($1)', [req.params.userId]);
+    var retValue = [];
+    query.on('row', function(row) {
+        retValue.push(row);
+    });
+
+    query.on('end', function() {
         return res.json(retValue);
     });
 });
@@ -57,7 +85,7 @@ router.post('/api/test/insertSession', function(req, res) {
         [req.body.userId, req.body.faucetId, req.body.usage, date]);
 
     insertQuery.on('end', function() {
-        console.log('Completed Insert to WaterUsage_by_session');
+        console.log('Completed INSERT to waterusage_by_session');
     });
 
     // Find or Update Water usage by date
@@ -71,15 +99,31 @@ router.post('/api/test/insertSession', function(req, res) {
                 [req.body.userId, req.body.usage, date.yyyymmdd()]);
 
             insertDayQuery.on('end', function() {
-                console.log('Completed Insert to waterusage_by_day');
+                console.log('Completed INSERT to waterusage_by_day');
             });
+
+            var insertMonthQuery = client.query('INSERT INTO waterusage_by_month(userId, usage, month, lastUpdate) values ($1, $2, $3, $4)',
+                [req.body.userId, req.body.usage, date.yyyymm(), date]);
+
+            insertMonthQuery.on('end', function() {
+                console.log('Completed INSERT into waterusage_by_month');
+            })
 
 
         } else {
+            var updateDayQuery = client.query('UPDATE waterusage_by_day SET usage = usage + ($1) WHERE userId=($2) AND date=($3)',
+                [req.body.usage, req.body.userId, date.yyyymmdd()]);
 
-            console.log('update');
+            updateDayQuery.on('end', function() {
+                console.log('Completed UPDATE to waterusage_by_day');
+            });
 
+            var updateMonthQuery = client.query('UPDATE waterusage_by_month SET usage = usage + ($1), lastUpdate = ($2) WHERE userId=($3) AND month=($4)',
+                [req.body.usage, date, req.body.userId, date.yyyymm()]);
 
+            updateMonthQuery.on('end', function() {
+                console.log('Completed UPDATE to waterusage_by_month');
+            });
         }
     });
 
