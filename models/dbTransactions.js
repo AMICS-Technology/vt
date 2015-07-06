@@ -4,10 +4,29 @@
 
 var pg = require('pg');
 
+// Make initial connection when this application is loaded for the first time
+var client = new pg.Client({
+    user: "imzyqdkhwhmmly",
+    password: "N_vtZuYXu_HblK2M7nG0vflupd",
+    database: "d8dje8d8vfe1dp",
+    port: 5432,
+    host: "ec2-54-83-36-90.compute-1.amazonaws.com",
+    ssl: true
+});
+client.connect();
+console.log('SYS: established connection to pgDatabase');
 
 module.exports = {
     getSessionByUser : function () {
-        console.log('do SessionByUser');
+        client.query('SELECT * from waterusage_by_session', function(err, results) {
+                console.log('do something!');
+
+                if(err) {
+                    return console.error('error running query', err);
+                }
+                console.log(results.rows[0]);
+            }
+        );
     },
 
     getDayByUser: function () {
