@@ -84,6 +84,7 @@ router.get('/api/v1/arduino/:userId', function(req, res, next){
             }
 
             // Create an Array of data sets
+            console.log(dayUsage);
             for(var i = 0; i < 7; i++) {
                 if(adt_low < dayUsage && adt_high >= dayUsage) {
                     cvNumber = i;
