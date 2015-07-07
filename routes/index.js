@@ -71,14 +71,19 @@ router.get('/api/v1/arduino/:userId', function(req, res, next){
             retValue2.push(row);
         });
 
-        dayUsageQuery.on('end', function(result) {
+        dayUsageQuery.on('end', function() {
             var adt_range = adt/7;
             var adt_low = 0;
             var adt_high = adt_range;
             var retColor = '';
             var cvNumber;
-            console.log(result);
-            var dayUsage = retValue2[0].usage;
+            var dayUsage;
+
+            if(retValue2.length != 0) {
+                dayUsage = retValue2[0].usage;
+            } else {
+                dayUsage = 0;
+            }
 
             // Create an Array of data sets
             console.log(dayUsage);
