@@ -43,8 +43,7 @@ Date.prototype.yyyymm = function() {
 
 Date.prototype.getPrevMonth = function() {
     var yyyy = this.getFullYear().toString();
-    //TODO: Revert this to previous month when data is available
-    var mm = (this.getMonth()+1).toString(); // getMonth() is zero-based
+    var mm = (this.getMonth()).toString(); // getMonth() is zero-based
     return yyyy + (mm[1]?mm:"0"+mm[0]); // padding
 };
 
@@ -58,7 +57,12 @@ router.get('/api/v1/arduino/:userId', function(req, res, next){
     });
 
     query.on('end', function() {
-        var adt = retValue[0].usage * (.98/31);
+        var adt;
+        if(retValue == null || retValue.length == 0) {
+            adt = 659835;
+        } else {
+            adt = retValue[0].usage * (.98 / 30);
+        }
 
         var dayUsageQuery = client.query('SELECT * FROM waterusage_by_day WHERE userId=($1) and date=($2)', [req.params.userId, date.yyyymmdd()]);
 
@@ -68,27 +72,52 @@ router.get('/api/v1/arduino/:userId', function(req, res, next){
         });
 
         dayUsageQuery.on('end', function() {
-            // TODO: Add Compare against Day Usage:
-
-            // There are 7 colors
             var adt_range = adt/7;
-
-            var adt_ranges = [];
             var adt_low = 0;
             var adt_high = adt_range;
             var retColor = '';
+            var cvNumber;
+            var dayUsage;
 
             if(retValue2.length != 0) {
-                var dayUsage = retValue2[0].usage;
+                dayUsage = retValue2[0].usage;
             }
 
-            // TODO: create an array - loop 7
+            // Create an Array of data sets
             for(var i = 0; i < 7; i++) {
-                adt_ranges.push(adt_low, adt_high);
+                if(adt_low < dayUsage && adt_high >= dayUsage) {
+                    cvNumber = i;
+                }
+                adt_low = adt_low + adt_range;
+                adt_high = adt_high + adt_range;
             }
 
-            console.log(retValue2);
-                return res.json(adt);
+            switch (cvNumber) {
+                case 0:
+                    retColor = 'GREEN';
+                    break;
+                case 1:
+                    retColor = 'TEAL';
+                    break;
+                case 2:
+                    retColor = 'BLUE';
+                    break;
+                case 3:
+                    retColor = 'PURPLE';
+                    break;
+                case 4:
+                    retColor = 'WHITE';
+                    break;
+                case 5:
+                    retColor = 'ORANGE';
+                    break;
+                case 6:
+                    retColor = 'RED';
+                    break;
+                default:
+                    retColor = 'GREEN';
+            }
+                return res.json(retColor);
         });
 
 
