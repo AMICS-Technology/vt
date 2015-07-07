@@ -77,7 +77,10 @@ router.get('/api/v1/arduino/:userId', function(req, res, next){
             var adt_low = 0;
             var adt_high = adt_range;
             var retColor = '';
-            var dayUsage = retValue2[0].usage;
+
+            if(retValue2.length != 0) {
+                var dayUsage = retValue2[0].usage;
+            }
 
             // TODO: create an array - loop 7
             for(var i = 0; i < 7; i++) {
