@@ -92,8 +92,6 @@ router.get('/api/v1/arduino/:userId', function(req, res, next){
                 adt_high = adt_high + adt_range;
             }
 
-            console.log(i);
-
             switch (cvNumber) {
                 case 0:
                     retColor = 'GREEN';
