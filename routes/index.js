@@ -64,10 +64,13 @@ router.get('/api/v1/arduino/:userId', function(req, res, next){
             adt = retValue[0].usage * (.98 / 30);
         }
 
+        console.log(date.yyyymmdd());
+
         var dayUsageQuery = client.query('SELECT * FROM waterusage_by_day WHERE userId=($1) and date=($2)', [req.params.userId, date.yyyymmdd()]);
 
         var retValue2 = [];
         dayUsageQuery.on('row', function(row) {
+            console.log(row);
             retValue2.push(row);
         });
 
