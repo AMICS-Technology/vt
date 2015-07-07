@@ -41,6 +41,58 @@ Date.prototype.yyyymm = function() {
     return yyyy + (mm[1]?mm:"0"+mm[0]); // padding
 };
 
+Date.prototype.getPrevMonth = function() {
+    var yyyy = this.getFullYear().toString();
+    //TODO: Revert this to previous month when data is available
+    var mm = (this.getMonth()+1).toString(); // getMonth() is zero-based
+    return yyyy + (mm[1]?mm:"0"+mm[0]); // padding
+};
+
+router.get('/api/v1/arduino/:userId', function(req, res, next){
+    var date = new Date();
+    var query = client.query('SELECT * FROM waterusage_by_month WHERE userId=($1) AND month=($2) ', [req.params.userId, date.getPrevMonth()]);
+
+    var retValue = [];
+    query.on('row', function(row) {
+        retValue.push(row);
+    });
+
+    query.on('end', function() {
+        var adt = retValue[0].usage * (.98/31);
+
+        var dayUsageQuery = client.query('SELECT * FROM waterusage_by_day WHERE userId=($1) and date=($2)', [req.params.userId, date.yyyymmdd()]);
+
+        var retValue2 = [];
+        dayUsageQuery.on('row', function(row) {
+            retValue2.push(row);
+        });
+
+        dayUsageQuery.on('end', function() {
+            // TODO: Add Compare against Day Usage:
+
+            // There are 7 colors
+            var adt_range = adt/7;
+
+            var adt_ranges = [];
+            var adt_low = 0;
+            var adt_high = adt_range;
+            var retColor = '';
+            var dayUsage = retValue2[0].usage;
+
+            // TODO: create an array - loop 7
+            for(var i = 0; i < 7; i++) {
+                adt_ranges.push(adt_low, adt_high);
+            }
+
+            console.log(retValue2);
+                return res.json(adt);
+        });
+
+
+    });
+
+});
+
 
 
 // TODO: Refactor and make more readable
