@@ -78,10 +78,7 @@ router.get('/api/v1/arduino/:userId', function(req, res, next){
             var retColor = '';
             var cvNumber;
             var dayUsage;
-
-            if(retValue2.length != 0) {
                 dayUsage = retValue2[0].usage;
-            }
 
             // Create an Array of data sets
             console.log(dayUsage);
