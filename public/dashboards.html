@@ -32,6 +32,9 @@
         }
         document.getElementById("id01").innerHTML = out;
     }*/
+
+
+
     var g = new JustGage({
         id: "gauge",
         value: 67,
@@ -39,6 +42,12 @@
         max: 100,
         title: "Daily Water Usage"
     });
+
+    var xmlhttp = new XMLHttpRequest();
+    xmlhttp.open("GET", "api/test/getAllDays/1", false);
+    xmlhttp.send();
+
+    console.log(xmlhttp.responseText);
 </script>
 
 </body>

@@ -133,6 +133,22 @@ router.get('/api/v1/arduino/:userId', function(req, res, next){
 });
 
 
+// This should be similar to the arduino endpoint.
+// GET request in
+// Query database for previous month usage
+// Return ADT (Max Value) - DayTotal (Guage Value)
+router.get('/api/v1/dashboard/:userId', function(req, res) {
+    var query = client.query('SELECT * from waterusage_by_day where userId=($1)', [req.params.userId]);
+    var retValue = [];
+    query.on('row', function(row) {
+        retValue.push(row);
+    });
+
+    query.on('end', function() {
+        return res.json(retValue);
+    });
+});
+
 
 // TODO: Refactor and make more readable
 router.get('/api/test/getAllBySession/:userId', function(req, res) {
@@ -356,38 +372,6 @@ router.post('/api/v1/postdata', function(req, res) {
         }
 
     });
-});
-
-router.get('/api/v1/sessionUsage', function(req, res) {
-
-    var results = [];
-
-    // Get a Postgres client from the connection pool
-    pg.connect(conString, function(err, client, done) {
-
-        // SQL Query > Select Data
-        var query = client.query("SELECT * FROM waterusage_by_session ORDER BY userId ASC;");
-
-
-        console.log(query);
-        // Stream results back one row at a time
-        query.on('row', function(row) {
-            results.push(row);
-        });
-
-        // After all data is returned, close connection and return results
-        query.on('end', function() {
-            client.end();
-            return res.json(results);
-        });
-
-        // Handle Errors
-        if(err) {
-            console.log(err);
-        }
-
-    });
-
 });
 
 module.exports = router;
