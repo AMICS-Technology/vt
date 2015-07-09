@@ -5,49 +5,35 @@
     <title>Dashboards</title>
     <script src="./javascripts/raphael.2.1.0.min.js"></script>
     <script src="./javascripts/justgage.1.0.1.min.js"></script>
+
+    <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
+    <script src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
 </head>
 <body>
 
 <div align='left' id="gauge" class="200x160px"></div>
 
 <script>
-    /*var xmlhttp = new XMHHttpRequest();
-    var url = '';
+    $.ajax({
+        url: "/api/v1/dashboards/1",
+        context: document.body,
+        success: function(data){
+            console.log(data);
+            $(this).addClass("done");
 
-    xmlhttp.onreadystatechange = function() {
-        if(xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-            var myArr = JSON.parse(xmlhttp.responseText);
-            myFunction(myArr);
+            var g = new JustGage({
+                id: "gauge",
+                value: data.dt,
+                min: 0,
+                max: data.adt,
+                title: "Total Daily Usage"
+            });
         }
-    }
-    xmlhttp.open("GET", url, true);
-    xmlhttp.send();
-
-    function myFunction(arr) {
-        var out = "";
-        var i;
-        for(i = 0; i < arr.length; i++) {
-            out += '<a href="' + arr[i].url + '">' +
-                    arr[i].display + '</a><br>';
-        }
-        document.getElementById("id01").innerHTML = out;
-    }*/
-
-
-
-    var g = new JustGage({
-        id: "gauge",
-        value: 67,
-        min: 0,
-        max: 100,
-        title: "Daily Water Usage"
     });
 
-    var xmlhttp = new XMLHttpRequest();
-    xmlhttp.open("GET", "api/test/getAllDays/1", false);
-    xmlhttp.send();
 
-    console.log(xmlhttp.responseText);
+
+
 </script>
 
 </body>
