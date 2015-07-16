@@ -210,7 +210,7 @@ router.get('/api/v1/arduino/:userId', function(req, res, next){
                     retColor = 'GREEN';
                     break;
             }
-                return res.send("<" + retColor + ">");
+                return res.json("<"+retColor+">");
         });
 
 
