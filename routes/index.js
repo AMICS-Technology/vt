@@ -137,7 +137,6 @@ router.get('/api/v1/dashboards/:userId', function(req, res, next) {
 router.get('/api/v1/arduino/:userId', function(req, res, next){
     var date = new Date();
     var query = client.query('SELECT * FROM waterusage_by_month WHERE userId=($1) AND month=($2) ', [req.params.userId, date.getPrevMonth()]);
-
     var retValue = [];
     query.on('row', function(row) {
         retValue.push(row);
@@ -211,7 +210,7 @@ router.get('/api/v1/arduino/:userId', function(req, res, next){
                     retColor = 'GREEN';
                     break;
             }
-                return res.send(retColor);
+                return res.send("<" + retColor + ">");
         });
 
 
@@ -278,7 +277,7 @@ router.get('/api/test/getAllMonth/:userId', function (req, res) {
 router.post('/api/test/insertSession', function(req, res) {
     // curl --data "userId=1&faucetId=1&usage=210" localhost:3000/api/test/insertSession
     var date = new Date();
-    console.log('inserting session - ' + req.body.toString());
+    console.log('inserting session - ' + JSON.stringify(req.body));
     req.body.usage = Math.floor(req.body.usage);
 
     var insertQuery = client.query('INSERT INTO waterusage_by_session(userId, faucetId, usage, date) values($1, $2, $3, $4)',
