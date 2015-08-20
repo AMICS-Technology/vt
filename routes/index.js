@@ -281,7 +281,7 @@ router.post('/api/test/insertSession', function(req, res) {
     req.body.usage = Math.floor(req.body.usage);
 
     var insertQuery = client.query('INSERT INTO waterusage_by_session(userId, faucetId, usage, date) values($1, $2, $3, $4)',
-        [req.body.userId, req.body.faucetId, req.body.usage, date]);
+        [1, req.body.faucetId, req.body.usage, date]);
 
     insertQuery.on('end', function() {
         console.log('Completed INSERT to waterusage_by_session');
@@ -289,13 +289,13 @@ router.post('/api/test/insertSession', function(req, res) {
 
     // Find or Update Water usage by date
     var selectWaterByDate = client.query('SELECT * FROM waterusage_by_day where userId=($1) AND date=($2)',
-        [req.body.userId, date.yyyymmdd()]);
+        [1, date.yyyymmdd()]);
 
     selectWaterByDate.on('end', function(result) {
 
         if(result.rowCount == 0) {
             var insertDayQuery = client.query('INSERT INTO waterusage_by_day(userId, usage, date) values($1, $2, $3)',
-                [req.body.userId, req.body.usage, date.yyyymmdd()]);
+                [1, req.body.usage, date.yyyymmdd()]);
 
             insertDayQuery.on('end', function() {
                 console.log('Completed INSERT to waterusage_by_day');
@@ -303,7 +303,7 @@ router.post('/api/test/insertSession', function(req, res) {
 
         } else {
             var updateDayQuery = client.query('UPDATE waterusage_by_day SET usage = usage + ($1) WHERE userId=($2) AND date=($3)',
-                [req.body.usage, req.body.userId, date.yyyymmdd()]);
+                [req.body.usage, 1, date.yyyymmdd()]);
 
             updateDayQuery.on('end', function() {
                 console.log('Completed UPDATE to waterusage_by_day');
@@ -314,20 +314,20 @@ router.post('/api/test/insertSession', function(req, res) {
     });
 
     var selectMonthByDate = client.query('SELECT * FROM waterusage_by_month where userId=($1) AND date=($2)',
-        [req.body.userId, date.yyyymm()]);
+        ['1', date.yyyymm()]);
 
     selectMonthByDate.on('end', function(result) {
 
         if(result.rowCount == 0) {
             var insertMonthQuery = client.query('INSERT INTO waterusage_by_month(userId, usage, month, lastUpdate) values ($1, $2, $3, $4)',
-                [req.body.userId, req.body.usage, date.yyyymm(), date]);
+                [1, req.body.usage, date.yyyymm(), date]);
 
             insertMonthQuery.on('end', function () {
                 console.log('Completed INSERT into waterusage_by_month');
             })
         } else {
             var updateMonthQuery = client.query('UPDATE waterusage_by_month SET usage = usage + ($1), lastUpdate = ($2) WHERE userId=($3) AND month=($4)',
-                [req.body.usage, date, req.body.userId, date.yyyymm()]);
+                [req.body.usage, date, 1, date.yyyymm()]);
 
             updateMonthQuery.on('end', function() {
                 console.log('Completed UPDATE to waterusage_by_month');
