@@ -135,7 +135,7 @@ router.get('/api/v1/dashboards/:userId', function(req, res, next) {
 });
 
 router.get('/api/v1/arduino/:userId', function(req, res, next){
-    var date = new Date();
+    var date = new Date().toUTCString();
     var query = client.query('SELECT * FROM waterusage_by_month WHERE userId=($1) AND month=($2) ', [req.params.userId, date.getPrevMonth()]);
     var retValue = [];
     query.on('row', function(row) {
