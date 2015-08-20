@@ -135,7 +135,7 @@ router.get('/api/v1/dashboards/:userId', function(req, res, next) {
 });
 
 router.get('/api/v1/arduino/:userId', function(req, res, next){
-    var date = new Date().toUTCString();
+    var date = new Date();
     var query = client.query('SELECT * FROM waterusage_by_month WHERE userId=($1) AND month=($2) ', [req.params.userId, date.getPrevMonth()]);
     var retValue = [];
     query.on('row', function(row) {
@@ -150,7 +150,7 @@ router.get('/api/v1/arduino/:userId', function(req, res, next){
             adt = retValue[0].usage * (.98 / 30);
         }
 
-        console.log(date.yyyymmdd());
+        console.log(date.toUTCString().yyyymmdd());
 
         var dayUsageQuery = client.query('SELECT * FROM waterusage_by_day WHERE userId=($1) and date=($2)', [req.params.userId, date.yyyymmdd()]);
 
