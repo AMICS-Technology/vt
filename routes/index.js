@@ -313,7 +313,7 @@ router.post('/api/test/insertSession', function(req, res) {
         }
     });
 
-    var selectMonthByDate = client.query('SELECT * FROM waterusage_by_month where userId=($1) AND date=($2)',
+    var selectMonthByDate = client.query('SELECT * FROM waterusage_by_month where userId=($1) AND month=($2)',
         [1, date.yyyymm()]);
 
     selectMonthByDate.on('end', function(result) {
