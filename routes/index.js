@@ -59,8 +59,6 @@ router.get('/api/v1/dashboards/month/:userId', function(req, res, next) {
         } else {
             amt = retValue[0].usage * (.98 / 30);
         }
-        var dayUsageQuery = client.query('SELECT * FROM waterusage_by_day WHERE userId=($1) and date=($2)', [req.params.userId, date.yyyymmdd()]);
-
         var monthUsageQuery = client.query('SELECT * FROM waterusage_by_month WHERE userId=($1) and month=($2)', [req.params.userId, date.yyyymm()]);
 
         var retValue2 = [];
@@ -69,7 +67,7 @@ router.get('/api/v1/dashboards/month/:userId', function(req, res, next) {
             retValue2.push(row);
         });
 
-        dayUsageQuery.on('end', function() {
+        monthUsageQuery.on('end', function() {
             var amt_range = amt/7;
             var amt_low = 0;
             var amt_high = amt_range;
