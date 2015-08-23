@@ -11,11 +11,12 @@
 </head>
 <body>
 
-<div align='left' id="gauge" class="200x160px"></div>
+<div align='left' id="gauge" class="400x320px"></div>
+<div align='left' id="monthGuage" class="400x320"></div>
 
 <script>
     $.ajax({
-        url: "/api/v1/dashboards/1",
+        url: "/api/v1/dashboards/day/1",
         context: document.body,
         success: function(data){
             console.log(data);
@@ -30,8 +31,21 @@
             });
         }
     });
+    $.ajax({
+        url: "/api/v1/dashboards/month/1",
+        context: document.body,
+        success: function(data) {
+            $(this).addClass("done");
 
-
+            var g2 = new JustGage({
+                id:"monthGuage",
+                value: data.dt,
+                min: 0,
+                max: data.amt,
+                title: "Total Month Usage"
+            })
+        }
+    });
 
 
 </script>

@@ -1,11 +1,7 @@
 var express = require('express');
 var router = express.Router();
-var rest_client = require('node-rest-client').Client;
 var path    = require("path");
-var transactions = require('../models/dbTransactions');
 
-
-rest_client = new rest_client();
 
 var pg = require('pg');
 
@@ -47,7 +43,97 @@ Date.prototype.getPrevMonth = function() {
     return yyyy + (mm[1]?mm:"0"+mm[0]); // padding
 };
 
-router.get('/api/v1/dashboards/:userId', function(req, res, next) {
+router.get('/api/v1/dashboards/month/:userId', function(req, res, next) {
+    var date = new Date();
+    var query = client.query('SELECT * FROM waterusage_by_month WHERE userId=($1) AND month=($2) ', [req.params.userId, date.getPrevMonth()]);
+
+    var retValue = [];
+    query.on('row', function(row) {
+        retValue.push(row);
+    });
+
+    query.on('end', function() {
+        var amt;
+        if(retValue == null || retValue.length == 0) {
+            amt = 659835 * 30;
+        } else {
+            amt = retValue[0].usage * (.98 / 30);
+        }
+        var dayUsageQuery = client.query('SELECT * FROM waterusage_by_day WHERE userId=($1) and date=($2)', [req.params.userId, date.yyyymmdd()]);
+
+        var monthUsageQuery = client.query('SELECT * FROM waterusage_by_month WHERE userId=($1) and month=($2)', [req.params.userId, date.yyyymm()]);
+
+        var retValue2 = [];
+        monthUsageQuery.on('row', function(row) {
+            console.log(row);
+            retValue2.push(row);
+        });
+
+        dayUsageQuery.on('end', function() {
+            var amt_range = amt/7;
+            var amt_low = 0;
+            var amt_high = amt_range;
+            var retColor = '';
+            var cvNumber;
+            var monthUsage;
+
+            if(retValue2.length != 0) {
+                monthUsage = retValue2[0].usage;
+            } else {
+                monthUsage = 0;
+            }
+
+            // Create an Array of data sets
+            console.log(monthUsage);
+            for(var i = 0; i < 7; i++) {
+                if(amt_low < monthUsage && amt_high >= monthUsage) {
+                    cvNumber = i;
+                }
+                amt_low = amt_low + amt_range;
+                amt_high = amt_high + amt_range;
+            }
+
+            switch (cvNumber) {
+                case 0:
+                    retColor = 'GREEN';
+                    break;
+                case 1:
+                    retColor = 'TEAL';
+                    break;
+                case 2:
+                    retColor = 'BLUE';
+                    break;
+                case 3:
+                    retColor = 'PURPLE';
+                    break;
+                case 4:
+                    retColor = 'WHITE';
+                    break;
+                case 5:
+                    retColor = 'ORANGE';
+                    break;
+                case 6:
+                    retColor = 'RED';
+                    break;
+                default:
+                    retColor = 'GREEN';
+                    break;
+            }
+
+            var retObject = {
+                amt: amt,
+                monthUsage: monthUsage,
+                color: retColor
+            };
+            return res.json(retObject);
+        });
+
+
+    });
+});
+
+
+router.get('/api/v1/dashboards/day/:userId', function(req, res, next) {
     var date = new Date();
     var query = client.query('SELECT * FROM waterusage_by_month WHERE userId=($1) AND month=($2) ', [req.params.userId, date.getPrevMonth()]);
 
@@ -210,7 +296,7 @@ router.get('/api/v1/arduino/:userId', function(req, res, next){
                     retColor = 'RED';
                     break;
             }
-                return res.json("<"+retColor+">");
+                return res.json(retColor);
         });
 
 
@@ -344,66 +430,6 @@ router.post('/api/test/insertSession', function(req, res) {
 
 });
 
-router.get('/api/v1/getxive', function(req, res) {
-    console.log('get from endpoint /api/v1/getxive');
-    var args = {
-        headers:{
-            "X-ApiKey":"7piMM7npQnuLUxBDsDGl3b3yjosgOdZaiWM53KeTivIPV5zj",
-            "Content-Length":"30",
-            "Host":"api.xively.com"
-        }
-    };
-
-    var max_value = 0;
-    var adjustment = .98;
-    var adjusted_value = 0;
-    var color;
-    var color_range;
-    rest_client.get('https://api.xively.com/v2/feeds/866813937.json?datastreams=meter_reading', args, function(data, response) {
-        var jsonString = JSON.parse(data);
-        for(var i = 0; i < jsonString.datastreams.length; i++) {
-            max_value += jsonString.datastreams[i].max_value;
-        }
-
-        adjusted_value = max_value * adjustment;
-        color_range = 100/7;
-        var range = 0;
-
-        if(0 < adjusted_value < range + color_range) {
-            color = 'GREEN';
-        } else if (range < adjusted_value < range + color_range) {
-            color = 'TEAL';
-        }
-        else if (range < adjusted_value < range + color_range) {
-            color = 'BLUE';
-        }
-        else if (range < adjusted_value < range + color_range) {
-            color = 'PURPLE';
-        }
-        else if (range < adjusted_value < range + color_range) {
-            color = 'WHITE';
-        }
-        else if (range < adjusted_value < range + color_range) {
-            color = 'ORANGE';
-        }
-        else if (range < adjusted_value < range + color_range) {
-            color = 'RED';
-        }
-
-        var jsonString = {
-            'adjusted_value': '<' + adjusted_value + '>',
-            //'color': color,
-            'total_usage': max_value
-            //'how_many_times_did_i_turn_on_the_faucet': jsonString.datastreams.length,
-            //'timestamp': new Date()
-        };
-        return res.json(jsonString);
-    });
-
-
-
-});
-
 router.post('/api/v1/postdata', function(req, res) {
     console.log('post at endpoint /api/v1/postdata');
 
@@ -435,27 +461,6 @@ router.post('/api/v1/postdata', function(req, res) {
                 client.query('UPDATE waterusage_by_month SET milliliter = milliliter + ($1), lastUpdate = ($2) where userId=($3)', [data.usage, pgFormatDate(date), data.userId]);
             }
         });
-        /*
-        var query = client.query("SELECT * FROM waterusage_by_month ORDER BY userId ASC");
-
-        console.log(query);
-        // Stream results back one row at a time
-        query.on('row', function(row) {
-            console.log('Test');
-            results.push(row);
-            console.log('Test2');
-
-        });
-        */
-
-        // SQL Query > Select Data
-        /*var query = client.query("SELECT * FROM waterusage_by_session ORDER BY sessionId ASC");
-
-        // Stream results back one row at a time
-        query.on('row', function(row) {
-            results.push(row);
-        });
-        */
 
         // After all data is returned, close connection and return results
         query.on('end', function() {
