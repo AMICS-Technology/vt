@@ -122,7 +122,7 @@ router.get('/api/v1/dashboards/month/:userId', function(req, res, next) {
 
             var retObject = {
                 amt: amt,
-                monthUsage: monthUsage,
+                mt: monthUsage,
                 color: retColor
             };
             return res.json(retObject);
