@@ -7,7 +7,7 @@ var path    = require("path");
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-    res.sendfile('public/social/index.html');
+    res.sendfile('public/social/login.html');
 });
 
 module.exports = router;
