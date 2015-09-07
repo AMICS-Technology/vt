@@ -14,4 +14,8 @@ router.get('/login', function (req, res, next) {
     res.sendfile('public/social/login.html');
 });
 
+router.post('/login', function (req, res, next) {
+    res.sendfile('public/social/main.html');
+});
+
 module.exports = router;
