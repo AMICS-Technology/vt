@@ -6,16 +6,6 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var pg = require('pg');
 
-
-var client = new pg.Client({
-    user: "imzyqdkhwhmmly",
-    password: "N_vtZuYXu_HblK2M7nG0vflupd",
-    database: "d8dje8d8vfe1dp",
-    port: 5432,
-    host: "ec2-54-83-36-90.compute-1.amazonaws.com",
-    ssl: true
-});
-
 var routes = require('./routes/index');
 var social = require('./routes/social');
 var users = require('./routes/users');

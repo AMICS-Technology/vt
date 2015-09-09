@@ -5,9 +5,7 @@ var pg = require('pg');
 var fs = require('fs');
 var sql = fs.readFileSync('dbUpdates.sql').toString();
 
-var dbConfig =  require('./config/database.js');
-
-var client = new pg.Client(dbConfig);
+var client = new pg.Client(process.env.DATABASE_URL);
 client.connect();
 
 var query = client.query(sql);
