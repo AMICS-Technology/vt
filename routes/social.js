@@ -14,6 +14,21 @@ router.get('/login', function (req, res, next) {
     res.sendfile('public/social/login.html');
 });
 
+router.get('/login/auth/facebook', function(req, res, next) {
+    res.sendfile('public/social/main.html');
+});
+
+
+router.get('/login/auth/twitter', function(req, res, next) {
+    res.sendfile('public/social/main.html');
+});
+
+
+router.get('/login/auth/google', function(req, res, next) {
+    res.sendfile('public/social/main.html');
+});
+
+
 router.post('/login', function (req, res, next) {
     res.sendfile('public/social/main.html');
 });
