@@ -15,6 +15,7 @@ router.get('/login', function (req, res, next) {
 });
 
 router.get('/login/auth/facebook', function(req, res, next) {
+    /* Need authorization logic for facebook */
     res.sendfile('public/social/main.html');
 });
 
