@@ -3,11 +3,10 @@
  */
 var express = require('express');
 var router = express.Router();
-var path    = require("path");
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-    res.sendfile('public/social/login.html');
+    res.render('main/login', { title: 'Hello World', body: 'The login page!'})
 });
 
 router.get('/login', function (req, res, next) {
