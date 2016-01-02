@@ -9,8 +9,16 @@ router.get('/', function(req, res, next) {
     res.render('main/login', { title: 'Hello World', body: 'The login page!'})
 });
 
-router.get('/login', function (req, res, next) {
-    res.redirect('main')
+router.post('/login', function (req, res) {
+    var email = req.body.email;
+    var password = req.body.password;
+
+    if(email == 'jonathanwshin@gmail.com') {
+        res.redirect('main')
+    } else {
+        res.render('main/login', { error: 'Invalid Username & Password'});
+    }
+
 });
 
 router.get('/main', function(req, res, next) {
