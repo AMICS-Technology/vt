@@ -2,25 +2,42 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>Pivotal Search</title>
+    <title>Amics Tech Login</title>
     <meta name="description" content="">
     <meta name="author" content="">
 
     <!-- HTML5 shim, for IE6-8 support of HTML elements -->
     <!--[if lt IE 9]>
     <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+
     <![endif]-->
 
     <!-- styles -->
-    <link href="stylesheets/style.css" rel="stylesheet">
+    <link href="/stylesheets/style.css" rel="stylesheet">
+    <link href="/bootstrap/css/bootstrap.min.css" rel="stylesheet" >
+    <link href="/stylesheets/login.css" rel="stylesheet">
 
 </head>
 <body>
-<%- body %>
 
-<div class="title">
-    <%= title %>
-</div>
+
+<div class="container">
+
+    <form class="form-signin" action="/social/login">
+        <h2 class="form-signin-heading">Please sign in</h2>
+        <label for="inputEmail" class="sr-only">Email address</label>
+        <input type="email" id="inputEmail" class="form-control" placeholder="Email address" required autofocus>
+        <label for="inputPassword" class="sr-only">Password</label>
+        <input type="password" id="inputPassword" class="form-control" placeholder="Password" required>
+        <div class="checkbox">
+            <label>
+                <input type="checkbox" value="remember-me"> Remember me
+            </label>
+        </div>
+        <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+    </form>
+
+</div> <!-- /container -->
 
 </body>
 </html>

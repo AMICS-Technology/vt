@@ -10,7 +10,9 @@ router.get('/', function(req, res, next) {
 });
 
 router.get('/login', function (req, res, next) {
-    res.sendfile('public/social/login.html');
+
+    res.render('main/home', { title: 'Hello World', body: 'Hello World'});
+
 });
 
 router.get('/login/auth/facebook', function(req, res, next) {
