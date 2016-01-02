@@ -14,7 +14,9 @@ router.post('/login', function (req, res) {
     var password = req.body.password;
 
     if(email == 'jonathanwshin@gmail.com') {
-        res.redirect('main')
+        res.redirect('main');
+    } else if ( email == 'jinkim138@gmail.com' ) {
+        res.redirect('main');
     } else {
         res.render('main/login', { error: 'Invalid Username & Password'});
     }
