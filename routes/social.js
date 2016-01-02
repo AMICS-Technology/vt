@@ -10,9 +10,35 @@ router.get('/', function(req, res, next) {
 });
 
 router.get('/login', function (req, res, next) {
+    res.redirect('main')
+});
 
+router.get('/main', function(req, res, next) {
     res.render('main/home', { title: 'Hello World', body: 'Hello World'});
+});
 
+router.get('/main/dashboard', function(req, res, next) {
+    res.render('main/screens/dashboard')
+});
+
+router.get('/main/leaderboard', function(req, res, next) {
+    res.render('main/screens/leaderboard');
+});
+
+router.get('/main/challenges', function(req, res, next) {
+    res.render('main/screens/challenges');
+});
+
+router.get('/main/progress', function(req, res, next) {
+    res.render('main/screens/progress');
+});
+
+router.get('/main/help', function(req, res, next) {
+    res.render('main/screens/help');
+});
+
+router.get('/main/settings', function(req, res, next) {
+    res.render('main/screens/settings');
 });
 
 router.get('/login/auth/facebook', function(req, res, next) {
