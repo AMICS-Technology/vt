@@ -17,13 +17,128 @@
     <link href="/bootstrap/css/bootstrap.min.css" rel="stylesheet" >
     <link href="/stylesheets/login.css" rel="stylesheet">
 
+    <style>
+        #custom-group1 {
+            width: 100px;
+            height:100px;
+            background-color: gray;
+            margin:50px 50px;
+
+            -webkit-box-shadow:0 0 20px green;
+            -moz-box-shadow: 0 0 20px green;
+            box-shadow:0 0 20px green;
+        }
+
+        #custom-group2 {
+            width: 100px;
+            height:100px;
+            background-color: gray;
+            margin:50px 50px;
+
+            -webkit-box-shadow:0 0 20px teal;
+            -moz-box-shadow: 0 0 20px teal;
+            box-shadow:0 0 20px teal;
+        }
+        #custom-group3 {
+            width: 100px;
+            height:100px;
+            background-color: gray;
+            margin:50px 50px;
+
+            -webkit-box-shadow:0 0 20px lightblue;
+            -moz-box-shadow: 0 0 20px lightblue;
+            box-shadow:0 0 20px lightblue;
+        }
+        #custom-group4 {
+            width: 100px;
+            height:100px;
+            background-color: gray;
+            margin:50px 50px;
+
+            -webkit-box-shadow:0 0 20px purple;
+            -moz-box-shadow: 0 0 20px purple;
+            box-shadow:0 0 20px purple;
+        }
+        #custom-group4 {
+            width: 100px;
+            height:100px;
+            background-color: gray;
+            margin:50px 50px;
+
+            -webkit-box-shadow:0 0 20px gray;
+            -moz-box-shadow: 0 0 20px gray;
+            box-shadow:0 0 20px gray;
+        }
+        #custom-group4 {
+            width: 100px;
+            height:100px;
+            background-color: gray;
+            margin:50px 50px;
+
+            -webkit-box-shadow:0 0 20px red;
+            -moz-box-shadow: 0 0 20px red;
+            box-shadow:0 0 20px red;
+        }
+    </style>
+
 </head>
 <body>
 
 <%-include('../navbar.ejs', {menu: 'leaderboard'});%>
 
 <div class="container">
+    <div class="row">
+        <div class="col-xs-12 col-sm-8 col-sm-offset-2">
+            <div class="panel panel-default">
 
+                <div class="row" style="display: none;">
+                    <div class="col-xs-12">
+                        <div class="input-group c-search">
+                            <input type="text" class="form-control" id="contact-list-search">
+                            <span class="input-group-btn">
+                                <button class="btn btn-default" type="button"><span class="glyphicon glyphicon-search text-muted"></span></button>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <ul class="list-group" id="contact-list">
+                    <li class="list-group-item custom-group1">
+                        <div class="col-xs-12 col-sm-3">
+                            <img id="custom-group1" src="http://2.bp.blogspot.com/-6QyJDHjB5XE/Uscgo2DVBdI/AAAAAAAACS0/DFSFGLBK_fY/s1600/facebook-default-no-profile-pic.jpg" alt="SHIN" class="img-responsive img-circle" />
+                        </div>
+                        <div class="col-xs-12 col-sm-6">
+                            <!--img src="http://images.clipartpanda.com/bottle-20clip-20art-jonata_Water_bottle.svg" class="img-responsive"-->
+                        </div>
+                        <div class="col-xs-12 col-sm-3">
+                            <h1><span class="name">SHIN</span></h1><br/>
+                            <span class="glyphicon glyphicon-thumbs-up text-muted c-info"  style="font-size: 2em;" data-toggle="tooltip" title="Like"></span>
+                            <span class="visible-xs"> <span class="text-muted">Like</span><br/></span>
+                            <span class="glyphicon glyphicon-comment text-muted c-info" style="font-size: 2em;" data-toggle="tooltip" title="Message"></span>
+                            <span class="visible-xs"> <span class="text-muted">Message</span><br/></span>
+                        </div>
+                        <div class="clearfix"></div>
+                    </li>
+                    <li class="list-group-item custom-group2">
+                        <div class="col-xs-12 col-sm-3">
+                            <img id="custom-group2" src="http://2.bp.blogspot.com/-6QyJDHjB5XE/Uscgo2DVBdI/AAAAAAAACS0/DFSFGLBK_fY/s1600/facebook-default-no-profile-pic.jpg" alt="KIM" class="img-responsive img-circle" />
+                        </div>
+                        <div class="col-xs-12 col-sm-6">
+                            <!--img src="http://images.clipartpanda.com/bottle-20clip-20art-jonata_Water_bottle.svg" class="img-responsive"-->
+                        </div>
+                        <div class="col-xs-12 col-sm-3">
+                            <h1><span class="name">KIM</span></h1><br/>
+                            <span class="glyphicon glyphicon-thumbs-up text-muted c-info"  style="font-size: 2em;" data-toggle="tooltip" title="Like"></span>
+                            <span class="visible-xs"> <span class="text-muted">Like</span><br/></span>
+                            <span class="glyphicon glyphicon-comment text-muted c-info" style="font-size: 2em;" data-toggle="tooltip" title="Message"></span>
+                            <span class="visible-xs"> <span class="text-muted">Message</span><br/></span>
+                        </div>
+                        <div class="clearfix"></div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
 </div> <!-- /container -->
 
 </body>
