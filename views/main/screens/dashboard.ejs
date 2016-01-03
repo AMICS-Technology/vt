@@ -12,10 +12,15 @@
 
     <![endif]-->
 
+    <script src="/javascripts/jquery-2.1.4.min.js"></script>
+
     <!-- styles -->
     <link href="/stylesheets/style.css" rel="stylesheet">
     <link href="/bootstrap/css/bootstrap.min.css" rel="stylesheet" >
     <link href="/stylesheets/login.css" rel="stylesheet">
+    <script src="/javascripts/raphael.2.1.0.min.js"></script>
+    <script src="/javascripts/justgage.1.0.1.min.js"></script>
+    <!--link href="/stylesheets/leaderboard.css" rel="stylesheet"-->
 
 </head>
 <body>
@@ -23,38 +28,136 @@
 <%-include('../navbar.ejs', {menu: 'dashboard'});%>
 <div class="container">
 
-    <div class="row">
-        <div class="col-md-4" align="center">
-            <img src="http://pingendo.github.io/pingendo-bootstrap/assets/placeholder.png" class="img-responsive">
-            Today's Use
-        </div>
-        <div class="col-md-4" align="center">
-            <img src="http://pingendo.github.io/pingendo-bootstrap/assets/placeholder.png" class="img-responsive">
-            Average Daily
-        </div>
-        <div class="col-md-4" align="center">
-            <img src="http://pingendo.github.io/pingendo-bootstrap/assets/placeholder.png" class="img-responsive">
-            Trend
+    <div class="col-md-4">
+        <div class="col-xs-12">
+            <div class="panel panel-default">
+                <ul class="list-group" id="contact-list">
+                    <li class="list-group-item custom-group1">
+                        <div class="col-xs-12 col-sm-3">
+                            <img id="custom-group1" src="http://2.bp.blogspot.com/-6QyJDHjB5XE/Uscgo2DVBdI/AAAAAAAACS0/DFSFGLBK_fY/s1600/facebook-default-no-profile-pic.jpg" alt="SHIN" class="img-responsive img-circle" />
+                        </div>
+                        <div class="col-xs-12 col-sm-6">
+                            <span class="name">Jonathan</span><br/>
+                            <span class="glyphicon glyphicon-triangle-bottom text-success"></span> 14.5%
+                            <!--img src="http://images.clipartpanda.com/bottle-20clip-20art-jonata_Water_bottle.svg" class="img-responsive"-->
+                        </div>
+                        <div class="col-xs-12 col-sm-3">
+                            <span class="glyphicon glyphicon-thumbs-up text-muted c-info" data-toggle="tooltip" title="Like"></span>
+                            <span class="visible-xs"> <span class="text-muted">Like</span></span>
+                            <span class="glyphicon glyphicon-comment text-muted c-info" data-toggle="tooltip" title="Message"></span>
+                            <span class="visible-xs"> <span class="text-muted">Message</span></span>
+                        </div>
+                        <div class="clearfix"></div>
+                    </li>
+                    <li class="list-group-item custom-group1">
+                        <div class="col-xs-12 col-sm-3">
+                            <img id="custom-group1" src="http://2.bp.blogspot.com/-6QyJDHjB5XE/Uscgo2DVBdI/AAAAAAAACS0/DFSFGLBK_fY/s1600/facebook-default-no-profile-pic.jpg" alt="SHIN" class="img-responsive img-circle" />
+                        </div>
+                        <div class="col-xs-12 col-sm-6">
+                            <span class="name">Jinsoo</span><br/>
+                            <span class="glyphicon glyphicon-triangle-bottom text-success"></span> 12.5%
+                        </div>
+                        <div class="col-xs-12 col-sm-3">
+                            <span class="glyphicon glyphicon-thumbs-up text-muted c-info" data-toggle="tooltip" title="Like"></span>
+                            <span class="visible-xs"> <span class="text-muted">Like</span></span>
+                            <span class="glyphicon glyphicon-comment text-muted c-info" data-toggle="tooltip" title="Message"></span>
+                            <span class="visible-xs"> <span class="text-muted">Message</span></span>
+                        </div>
+                        <div class="clearfix"></div>
+                    </li>
+                    <li class="list-group-item custom-group1">
+                        <div class="col-xs-12 col-sm-3">
+                            <img id="custom-group1" src="http://2.bp.blogspot.com/-6QyJDHjB5XE/Uscgo2DVBdI/AAAAAAAACS0/DFSFGLBK_fY/s1600/facebook-default-no-profile-pic.jpg" alt="SHIN" class="img-responsive img-circle" />
+                        </div>
+                        <div class="col-xs-12 col-sm-6">
+                            <span class="name">Artie</span><br/>
+                            <span class="glyphicon glyphicon-triangle-top text-danger"></span> 2.5%
+                            <!--img src="http://images.clipartpanda.com/bottle-20clip-20art-jonata_Water_bottle.svg" class="img-responsive"-->
+                        </div>
+                        <div class="col-xs-12 col-sm-3">
+                            <span class="glyphicon glyphicon-thumbs-up text-muted c-info" data-toggle="tooltip" title="Like"></span>
+                            <span class="visible-xs"> <span class="text-muted">Like</span></span>
+                            <span class="glyphicon glyphicon-comment text-muted c-info" data-toggle="tooltip" title="Message"></span>
+                            <span class="visible-xs"> <span class="text-muted">Message</span></span>
+                        </div>
+                        <div class="clearfix"></div>
+                    </li>
+                </ul>
+            </div>
         </div>
     </div>
-    <div class="row">
-        <div class="col-md-4" align="center">
-            <img src="http://pingendo.github.io/pingendo-bootstrap/assets/placeholder.png" class="img-responsive">
-            Last Month Total
+    <div class="col-md-8">
+        <div class="row">
+            <div class="col-md-4" align="center">
+                <div class="col-xs-11">
+                    <img src="http://images.clipartpanda.com/bottle-20clip-20art-jonata_Water_bottle.svg" class="img-responsive">
+                </div>
+                <div class="col-xs-1" style="position:absolute;padding-top:70px;margin-left:150px;padding-right:120px;float:left;white-space:nowrap;text-align:right;">
+                    <span class="glyphicon glyphicon-triangle-left"></span> 12G
+                </div>
+                <h3>Today's Use</h3>
+            </div>
+            <div class="col-md-4" align="center">
+                <div align='left' id="gauge" class="400x320px"></div>
+            </div>
+            <div class="col-md-4" align="center">
+                <img src="https://wakingamericaup.files.wordpress.com/2011/04/down-arrow-graph.jpg" class="img-responsive">
+                Trend
+            </div>
         </div>
-        <div class="col-md-4" align="center">
-            <img src="http://pingendo.github.io/pingendo-bootstrap/assets/placeholder.png" class="img-responsive">
-            Month Projection
-        </div>
-        <div class="col-md-4" align="center">
-            <img src="http://pingendo.github.io/pingendo-bootstrap/assets/placeholder.png" class="img-responsive">
-            Testing
+        <div class="row">
+            <div class="col-md-4" align="center">
+                <div align='left' id="monthGuage" class="400x320"></div>
+            </div>
+            <div class="col-md-4" align="center">
+                <img src="https://wakingamericaup.files.wordpress.com/2011/04/down-arrow-graph.jpg" class="img-responsive">
+                Month Projection
+            </div>
+            <div class="col-md-4" align="center">
+                <img src="http://pingendo.github.io/pingendo-bootstrap/assets/placeholder.png" class="img-responsive">
+                Testing
+            </div>
         </div>
     </div>
-
     <!-- Pass active menu choice through here -->
 
 </div> <!-- /container -->
+
+<script>
+    $.ajax({
+        url: "/api/v1/dashboards/day/1",
+        context: document.body,
+        success: function(data){
+            console.log(data);
+            $(this).addClass("done");
+
+            var g = new JustGage({
+                id: "gauge",
+                value: data.dt,
+                min: 0,
+                max: data.adt,
+                title: "Total Daily Usage"
+            });
+        }
+    });
+    $.ajax({
+        url: "/api/v1/dashboards/month/1",
+        context: document.body,
+        success: function(data) {
+            $(this).addClass("done");
+
+            var g2 = new JustGage({
+                id:"monthGuage",
+                value: data.mt,
+                min: 0,
+                max: data.amt,
+                title: "Total Month Usage"
+            })
+        }
+    });
+
+
+</script>
 
 </body>
 </html>
