@@ -9,10 +9,36 @@
     <p>Robot Controller</p>
 
   <form action="/controls/values" method="post">
-    <label for="seedType">Seed Type:</label><input type="text" value="<%=seedType%>" name="seedType"/>
-    <label for="sectionDistance">Section Distance:</label><input type="text" value="<%=sectionDistance%>" name="sectionDistance"/>
-    <label for="totalDistance">Total Distance:</label><input type="text" value="<%=totalDistance%>" name="totalDistance"/>
-    <input type="submit" value="Calibrate" />
+    <table>
+      <tr>
+        <td>
+          <label for="seedType">Seed Type:</label><input type="text" placeholder="<%=seedType%>" name="seedType"/>
+        </td>
+        <td>
+          <label for="sectionDistance">Section Distance:</label><input type="text" placeholder="<%=sectionDistance%>" name="sectionDistance"/>
+        </td>
+        <td>
+          <label for="totalDistance">Total Distance:</label><input type="text" placeholder="<%=totalDistance%>" name="totalDistance"/>
+        </td>
+        <td>
+         <input type="submit" value="Calibrate" />
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <%=seedType%>
+        </td>
+        <td>
+          <%=sectionDistance%>
+        </td>
+        <td>
+          <%=totalDistance%>
+        </td>
+        <td>
+
+        </td>
+      </tr>
+    </table>
   </form>
   </body>
 </html>
