@@ -30,7 +30,7 @@ router.post('/values', function(req, res) {
   seedType = req.body.seedType;
   sectionDistance = req.body.sectionDistance;
   totalDistance = req.body.totalDistance;
-  res.redirect('/controls');
+  res.render('main/controls', {seedType: seedType, sectionDistance:sectionDistance, totalDistance:totalDistance});
 });
 
 module.exports = router;
