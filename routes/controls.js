@@ -11,19 +11,19 @@ router.get('/', function(req, res) {
 });
 
 router.get('/state', function(req, res) {
-  res.send('"'+ seedType + '|' + sectionDistance + '|' + totalDistance + '"');
+  res.send('"<'+ seedType + '|' + sectionDistance + '|' + totalDistance + '>"');
 });
 
 router.get('/state/seedType', function(req, res) {
-  res.send('"' + seedType + '"');
+  res.send('"<' + seedType + '>"');
 });
 
 router.get('/state/sectionDistance', function(req, res) {
-  res.send('"' + sectionDistance + '"');
+  res.send('"<' + sectionDistance + '>"');
 });
 
 router.get('/state/totalDistance', function(req, res) {
-  res.send('"' + totalDistance+ '"');
+  res.send('"<' + totalDistance+ '>"');
 });
 
 router.post('/values', function(req, res) {
