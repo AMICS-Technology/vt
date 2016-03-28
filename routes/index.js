@@ -417,7 +417,7 @@ router.post('/api/test/insertSession', function(req, res) {
 
     // Insert or update water usage by month
 
-    res.redirect('/api/test/getAllBySession/' + req.body.userId);
+    res.send(200);
 
 });
 
