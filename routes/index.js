@@ -421,7 +421,7 @@ router.post('/api/test/insertSession', function(req, res) {
 
 });
 
-router.post('/api/v1/postData/:usage', function(req, res) {
+router.get('/api/v1/postData/:usage', function(req, res) {
     // curl --data "userId=1&faucetId=1&usage=210" localhost:3000/api/test/insertSession
     var date = new Date();
     req.body.usage = Math.floor(req.params.usage);
