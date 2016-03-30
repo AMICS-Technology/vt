@@ -356,6 +356,11 @@ router.post('/api/test/insertSession', function(req, res) {
     console.log('posted - ' + req.body);
     console.log('inserting session - ' + JSON.stringify(req.body));
     var date = new Date();
+    if(typeof req.body.usage === 'undefined') {
+        res.send(500);
+        console.log('failed');
+        return false;
+    }
     req.body.usage = Math.floor(req.body.usage);
 
     var insertQuery = client.query('INSERT INTO waterusage_by_session(userId, faucetId, usage, date) values($1, $2, $3, $4)',
