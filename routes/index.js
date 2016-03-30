@@ -354,8 +354,8 @@ router.get('/api/test/getAllMonth/:userId', function (req, res) {
 router.post('/api/test/insertSession', function(req, res) {
     // curl --data "userId=1&faucetId=1&usage=210" localhost:3000/api/test/insertSession
     console.log('posted - ' + req.body);
-    var date = new Date();
     console.log('inserting session - ' + JSON.stringify(req.body));
+    var date = new Date();
     req.body.usage = Math.floor(req.body.usage);
 
     var insertQuery = client.query('INSERT INTO waterusage_by_session(userId, faucetId, usage, date) values($1, $2, $3, $4)',
