@@ -15,7 +15,7 @@ router.get('/state', function(req, res) {
 });
 
 router.get('/state/seedType', function(req, res) {
-  res.send(seedType + '"<' + 35 + '>"');
+  res.send(seedType + '"<' + 50 + '>"');
 });
 
 router.get('/state/sectionDistance', function(req, res) {
