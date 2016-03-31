@@ -3,6 +3,11 @@
   <head>
     <title>Robot Controller</title>
     <link rel='stylesheet' href='/stylesheets/style.css' />
+    <script src="./javascripts/raphael.2.1.0.min.js"></script>
+    <script src="./javascripts/justgage.1.0.1.min.js"></script>
+
+    <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
+    <script src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
   </head>
   <body>
     <h1>Robot Controller</h1>
@@ -39,6 +44,48 @@
         </td>
       </tr>
     </table>
+
+
+    <br />
+    <br />
+    <div align='left' id="gauge" class="400x320px"></div>
+    <div align='left' id="monthGuage" class="400x320"></div>
+
+    <script>
+      $.ajax({
+        url: "/api/v1/dashboards/day/1",
+        context: document.body,
+        success: function(data){
+          console.log(data);
+          $(this).addClass("done");
+
+          var g = new JustGage({
+            id: "gauge",
+            value: data.dt,
+            min: 0,
+            max: data.adt,
+            title: "Total Daily Usage"
+          });
+        }
+      });
+      $.ajax({
+        url: "/api/v1/dashboards/month/1",
+        context: document.body,
+        success: function(data) {
+          $(this).addClass("done");
+
+          var g2 = new JustGage({
+            id:"monthGuage",
+            value: data.mt,
+            min: 0,
+            max: data.amt,
+            title: "Total Month Usage"
+          })
+        }
+      });
+
+
+    </script>
   </form>
   </body>
 </html>
