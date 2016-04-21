@@ -15,7 +15,11 @@ router.get('/state', function(req, res) {
 });
 
 router.get('/state/seedType', function(req, res) {
-  res.send(seedType + '"<' + 50 + '>"');
+  if(seedType.toLowerCase() == 'almond') {
+    res.send(seedType + '"<50>"');
+  } else if(seedType.toLowerCase() == 'acorn') {
+    res.send(seedType + '"<25>"');
+  }
 });
 
 router.get('/state/sectionDistance', function(req, res) {
