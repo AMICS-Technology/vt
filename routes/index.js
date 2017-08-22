@@ -351,6 +351,14 @@ router.get('/api/test/getAllMonth/:userId', function (req, res) {
     });
 });
 
+router.delete('/api/test', function(req, res) {
+  var deleteQuery = client.query('truncate waterusage_by_session, waterusage_by_day, waterusage_by_month;')
+  deleteQuery.on('end', function() {
+    console.log('Completed delete');
+  });
+  res.send(200);
+}
+
 router.post('/api/test/insertSession', function(req, res) {
     // curl --data "userId=1&faucetId=1&usage=210" localhost:3000/api/test/insertSession
     console.log('posted - ' + req.body);
