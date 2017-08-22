@@ -316,7 +316,7 @@ router.get('/api/v1/dashboard/:userId', function(req, res) {
 // TODO: Refactor and make more readable
 router.get('/api/test/getAllBySession/:userId', function(req, res) {
     // curl localhost:3000/api/test/getAllBySession/1
-    var query = client.query('SELECT * from waterusage_by_session where userId=($1)', [req.params.userId]);
+    var query = client.query('SELECT * from waterusage_by_session where userId=($1) order by date desc', [req.params.userId]);
     var retValue = [];
     query.on('row', function(row) {
         retValue.push(row);
