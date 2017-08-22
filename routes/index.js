@@ -328,7 +328,7 @@ router.get('/api/test/getAllBySession/:userId', function(req, res) {
 });
 
 router.get('/api/test/getAllDays/:userId', function (req, res) {
-    var query = client.query('SELECT * from waterusage_by_day where userId=($1)', [req.params.userId]);
+    var query = client.query('SELECT * from waterusage_by_day where userId=($1) order by date desc', [req.params.userId]);
     var retValue = [];
     query.on('row', function(row) {
         retValue.push(row);
