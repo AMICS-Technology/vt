@@ -357,7 +357,7 @@ router.delete('/api/test', function(req, res) {
     console.log('Completed delete');
   });
   res.send(200);
-}
+});
 
 router.post('/api/test/insertSession', function(req, res) {
     // curl --data "userId=1&faucetId=1&usage=210" localhost:3000/api/test/insertSession
